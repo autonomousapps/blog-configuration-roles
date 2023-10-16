@@ -1,0 +1,15 @@
+pluginManagement {
+  includeBuild 'plugin'
+}
+
+dependencyResolutionManagement {
+  repositories {
+    mavenCentral()
+  }
+}
+
+rootProject.name = 'configuration-roles-sample'
+
+include ':consumer'
+include ':producer'
+include ':producer-2'

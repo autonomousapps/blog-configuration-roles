@@ -1,0 +1,9 @@
+plugins {
+  id 'org.jetbrains.kotlin.jvm' version '1.9.10'
+  id 'mutual.aid.configuration-roles'
+}
+
+dependencies {
+  bucket project(':producer')
+  bucket project(':producer-2')
+}

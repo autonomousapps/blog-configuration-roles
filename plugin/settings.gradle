@@ -1,0 +1,9 @@
+dependencyResolutionManagement {
+  repositories {
+    mavenCentral()
+  }
+}
+
+rootProject.name = 'configuration-roles-plugin'
+
+include ':configuration-roles'

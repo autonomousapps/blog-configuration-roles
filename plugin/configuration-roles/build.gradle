@@ -1,0 +1,20 @@
+plugins {
+  id 'java-gradle-plugin'
+  id 'org.jetbrains.kotlin.jvm' version '1.9.10'
+}
+
+group = 'mutual.aid'
+version = '0.1'
+
+gradlePlugin {
+  plugins {
+    greeting {
+      id = 'mutual.aid.configuration-roles'
+      implementationClass = 'mutual.aid.ConfigurationRolesPlugin'
+    }
+  }
+}
+
+dependencies {
+  implementation('org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10')
+}
