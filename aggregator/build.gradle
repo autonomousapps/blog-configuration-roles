@@ -1,0 +1,12 @@
+plugins {
+  id 'org.jetbrains.kotlin.jvm' version '1.9.10'
+  id 'mutual.aid.configuration-roles'
+}
+
+dependencies {
+  sourceFiles project(':magic')
+  sourceFiles project(':heart-of-gold')
+
+  implementation project(':magic')
+  implementation project(':heart-of-gold')
+}

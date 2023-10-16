@@ -1,5 +1,5 @@
 pluginManagement {
-  includeBuild 'plugin'
+  includeBuild 'build-logic'
 }
 
 dependencyResolutionManagement {
@@ -10,6 +10,6 @@ dependencyResolutionManagement {
 
 rootProject.name = 'configuration-roles-sample'
 
-include ':consumer'
-include ':producer'
-include ':producer-2'
+include ':aggregator'
+include ':magic'
+include ':heart-of-gold'
