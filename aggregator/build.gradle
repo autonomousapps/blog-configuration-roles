@@ -4,9 +4,9 @@ plugins {
 }
 
 dependencies {
-  sourceFiles project(':magic')
-  sourceFiles project(':heart-of-gold')
+  sourceFiles project(':feature-1')
+  sourceFiles project(':feature-2')
 
-  implementation project(':magic')
-  implementation project(':heart-of-gold')
+  implementation project(':feature-1')
+  implementation project(':feature-2')
 }

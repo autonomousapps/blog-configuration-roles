@@ -16,15 +16,22 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 class ConfigurationRolesPlugin : Plugin<Project> {
 
   internal companion object {
-    const val GROUP = "Configuration roles demo"
+    const val TASK_GROUP = "Configuration roles demo"
   }
 
   override fun apply(project: Project): Unit = project.run {
     val kotlin = extensions.getByType(KotlinJvmProjectExtension::class.java)
 
+    // src/main
+    val mainSource = kotlin.sourceSets.named("main")
+    // src/main/{kotlin,java} as a FileTree
+    val mainKotlinSource = mainSource.map { it.kotlin }
+    // src/main/{kotlin,java} as a FileCollection
+    val mainKotlinSourceFiles = mainKotlinSource.map { it.sourceDirectories }
+
     // Register a task to produce a custom output for consumption by other projects
     val producer = tasks.register("collectSources", ProducerTask::class.java) { t ->
-      t.source.from(kotlin.sourceSets.getByName("main").kotlin.sourceDirectories)
+      t.source.from(mainKotlinSourceFiles)
       t.output.set(layout.buildDirectory.file("reports/configuration-roles/sources.txt"))
     }
 
@@ -36,11 +43,15 @@ class ConfigurationRolesPlugin : Plugin<Project> {
 
     // Dependencies are declared on this configuration
     val declarable = configurations.dependencyScope(declarableName)
+      // The new APIs return the new configuration wrapped in a lazy Provider, for consistency with
+      // other Gradle APIs. However, there is no value in having a lazy Configuration, since we use
+      // it immediately anyway. So, call get() to realize it, and call it a day.
+      .get()
 
     // The plugin will resolve dependencies against this internal configuration, which extends from
     // the declared dependencies
     val internal = configurations.resolvable(internalName) { c ->
-      c.extendsFrom(configurations.getByName(declarableName))
+      c.extendsFrom(declarable)
       c.attributes { a ->
         a.attribute(
           // This attribute is identical to what is set on the external/consumable configuration
@@ -51,8 +62,8 @@ class ConfigurationRolesPlugin : Plugin<Project> {
 
     // The plugin will expose dependencies on this configuration, which extends from the declared
     // dependencies
-    val external = configurations.consumable(externalName) { c ->
-      c.extendsFrom(configurations.getByName(declarableName))
+    configurations.consumable(externalName) { c ->
+      c.extendsFrom(declarable)
       c.attributes { a ->
         a.attribute(
           // This attribute is identical to what is set on the internal/resolvable configuration
@@ -60,6 +71,8 @@ class ConfigurationRolesPlugin : Plugin<Project> {
         )
       }
 
+      // Teach Gradle which task produces the artifact associated with this external/consumable
+      // configuration
       c.outgoing.artifact(producer.flatMap { it.output })
     }
 

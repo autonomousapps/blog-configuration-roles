@@ -18,7 +18,7 @@ import org.gradle.api.tasks.TaskAction
 abstract class ProducerTask : DefaultTask() {
 
   init {
-    group = ConfigurationRolesPlugin.GROUP
+    group = ConfigurationRolesPlugin.TASK_GROUP
     description = "Write the name of each source file into output.txt"
   }
 

@@ -11,5 +11,5 @@ dependencyResolutionManagement {
 rootProject.name = 'configuration-roles-sample'
 
 include ':aggregator'
-include ':magic'
-include ':heart-of-gold'
+include ':feature-1'
+include ':feature-2'

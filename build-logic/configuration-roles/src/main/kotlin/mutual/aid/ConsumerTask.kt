@@ -18,7 +18,7 @@ import org.gradle.api.tasks.UntrackedTask
 abstract class ConsumerTask : DefaultTask() {
 
   init {
-    group = ConfigurationRolesPlugin.GROUP
+    group = ConfigurationRolesPlugin.TASK_GROUP
     description = "Prints all the source files in dependency projects"
   }
 

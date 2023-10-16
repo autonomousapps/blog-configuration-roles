@@ -1,12 +1,12 @@
 package mutual.aid.aggregator
 
-import mutual.aid.clacks.Octarine
-import mutual.aid.heart.FortyTwo
+import mutual.aid.feature2.AllTheWayDown
+import mutual.aid.feature1.FortyTwo
 
 class Aggregator {
 
   // Simply validating that the report configurations don't interfere with normal classpath
   // configurations
-  val octarine = Octarine()
+  val allTheWayDown = AllTheWayDown()
   val fortyTwo = FortyTwo()
 }
