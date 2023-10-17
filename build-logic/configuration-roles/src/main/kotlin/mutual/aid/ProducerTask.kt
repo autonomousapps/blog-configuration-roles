@@ -37,7 +37,7 @@ abstract class ProducerTask : DefaultTask() {
     output.delete()
 
     // Collect the name of all source files in `src/kotlin/main`.
-    val files = source.asFileTree.files
+    val files = source
       .map { it.name }
       // The order of the files in a FileTree is not stable, even on a single computer
       .sorted()

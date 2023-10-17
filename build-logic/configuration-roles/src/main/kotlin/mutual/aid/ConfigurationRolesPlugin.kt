@@ -24,14 +24,12 @@ class ConfigurationRolesPlugin : Plugin<Project> {
 
     // src/main
     val mainSource = kotlin.sourceSets.named("main")
-    // src/main/{kotlin,java} as a FileTree
+    // src/main/{kotlin,java} as a FileTree (technically a Provider<SourceDirectorySet>)
     val mainKotlinSource = mainSource.map { it.kotlin }
-    // src/main/{kotlin,java} as a FileCollection
-    val mainKotlinSourceFiles = mainKotlinSource.map { it.sourceDirectories }
 
     // Register a task to produce a custom output for consumption by other projects
     val producer = tasks.register("collectSources", ProducerTask::class.java) { t ->
-      t.source.from(mainKotlinSourceFiles)
+      t.source.from(mainKotlinSource)
       t.output.set(layout.buildDirectory.file("reports/configuration-roles/sources.txt"))
     }
 
