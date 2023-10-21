@@ -1,0 +1,65 @@
+gradle resolvableConfigurations
+
+annotationProcessor
+testAnnotationProcessor
+compileClasspath
+runtimeClasspath
+testCompileClasspath
+testRuntimeClasspath
+
+kotlin-specific
+- kotlinCompilerPluginClasspathMain
+- kotlinCompilerPluginClasspathTest
+- kotlinKlibCommonizerClasspath
+- kotlinNativeCompilerPluginClasspath
+
+usage: kotlin-metadata
+- apiDependenciesMetadata
+- compileOnlyDependenciesMetadata
+- implementationDependenciesMetadata
+- intransitiveDependenciesMetadata
+- testApiDependenciesMetadata
+- testCompileOnlyDependenciesMetadata
+- testImplementationDependenciesMetadata
+- testIntransitiveDependenciesMetadata
+
+no information
+- kotlinBuildToolsApiClasspath
+- kotlinCompilerClasspath
+- kotlinCompilerPluginClasspath
+- kotlinScriptDef
+- kotlinScriptDefExtensions
+- testKotlinScriptDef
+- testKotlinScriptDefExtensions
+
+
+--------------------------------------------------
+Compatibility Rules
+--------------------------------------------------
+The following Attributes have compatibility rules defined.
+
+    - org.gradle.dependency.bundling
+    - org.gradle.jvm.environment
+    - org.gradle.jvm.version
+    - org.gradle.libraryelements
+    - org.gradle.plugin.api-version
+    - org.gradle.usage
+    - org.jetbrains.kotlin.localToProject
+    - org.jetbrains.kotlin.platform.type
+
+--------------------------------------------------
+Disambiguation Rules
+--------------------------------------------------
+The following Attributes have disambiguation rules defined.
+
+    - org.gradle.category (1)
+    - org.gradle.dependency.bundling (5)
+    - org.gradle.jvm.environment (6)
+    - org.gradle.jvm.version (3)
+    - org.gradle.libraryelements (4)
+    - org.gradle.plugin.api-version
+    - org.gradle.usage (2)
+    - org.jetbrains.kotlin.localToProject
+    - org.jetbrains.kotlin.platform.type
+
+(#): Attribute disambiguation precedence

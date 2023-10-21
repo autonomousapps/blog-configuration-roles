@@ -1,12 +1,29 @@
 plugins {
+  id 'application'
   id 'org.jetbrains.kotlin.jvm' version '1.9.10'
   id 'mutual.aid.configuration-roles'
+  id 'mutual.aid.rules.app'
+}
+
+application {
+  mainClass = 'mutual.aid.aggregator.AggregatorKt'
+}
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
 }
 
 dependencies {
   sourceFiles project(':feature-1')
   sourceFiles project(':feature-2')
 
+  // Uncomment either of these and attempt to build this project: you'll get an error
+//  implementation project(':app')
+//  testImplementation project(':app')
+
   implementation project(':feature-1')
   implementation project(':feature-2')
+  implementation 'org.apache.commons:commons-collections4:4.4'
 }

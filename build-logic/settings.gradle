@@ -1,3 +1,9 @@
+pluginManagement {
+  plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.9.10'
+  }
+}
+
 dependencyResolutionManagement {
   repositories {
     mavenCentral()
@@ -7,3 +13,4 @@ dependencyResolutionManagement {
 rootProject.name = 'configuration-roles-plugin'
 
 include ':configuration-roles'
+include ':module-rules'

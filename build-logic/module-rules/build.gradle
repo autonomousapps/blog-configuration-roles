@@ -1,0 +1,20 @@
+plugins {
+  id 'java-gradle-plugin'
+  id 'org.jetbrains.kotlin.jvm'
+}
+
+group = 'mutual.aid'
+version = '0.1'
+
+gradlePlugin {
+  plugins {
+    appRules {
+      id = 'mutual.aid.rules.app'
+      implementationClass = 'mutual.aid.rules.ModuleRules$AppRulesPlugin'
+    }
+    libRules {
+      id = 'mutual.aid.rules.lib'
+      implementationClass = 'mutual.aid.rules.ModuleRules$LibRulesPlugin'
+    }
+  }
+}

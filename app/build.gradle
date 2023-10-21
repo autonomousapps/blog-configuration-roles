@@ -1,7 +1,12 @@
 plugins {
+  id 'application'
   id 'org.jetbrains.kotlin.jvm' version '1.9.10'
   id 'mutual.aid.configuration-roles'
-  id 'mutual.aid.rules.lib'
+  id 'mutual.aid.rules.app'
+}
+
+application {
+  mainClass = 'mutual.aid.app.MainKt'
 }
 
 java {
@@ -11,5 +16,6 @@ java {
 }
 
 dependencies {
+  implementation project(':feature-1')
   implementation project(':feature-2')
 }
