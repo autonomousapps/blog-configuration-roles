@@ -3,6 +3,8 @@ package mutual.aid.rules
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
+import org.gradle.api.attributes.AttributeCompatibilityRule
+import org.gradle.api.attributes.CompatibilityCheckDetails
 
 /**
  * This proof-of-concept explores how one might use the concept of Gradle variant attributes to
@@ -42,6 +44,16 @@ class ModuleRules {
     fun Project.onEachResolvable(configureAction: (Configuration) -> Unit) {
       resolvables.forEach { configurations.named(it, configureAction) }
     }
+
+    fun Project.setCompatibilityRules(rule: Class<out AttributeCompatibilityRule<Role>>) {
+      dependencies.run {
+        attributesSchema { schema ->
+          schema.attribute(Role.ROLE_ATTRIBUTE) { matchingStrategy ->
+            matchingStrategy.compatibilityRules.add(rule)
+          }
+        }
+      }
+    }
   }
 
   /**
@@ -58,8 +70,23 @@ class ModuleRules {
     override fun apply(target: Project): Unit = target.run {
       // outgoing variants: this is an app project
       onEachConsumable(role(Role.APP))
-      // resolvable dependencies: only resolve libraries, never apps
+      // resolvable dependencies: only resolve library-like things, never apps
       onEachResolvable(role(Role.LIB))
+
+      setCompatibilityRules(AppRule::class.java)
+    }
+
+    abstract class AppRule : AttributeCompatibilityRule<Role> {
+
+      private companion object {
+        val COMPATIBLE_DEP_ROLES = listOf(Role.LIB, Role.PROTO)
+      }
+
+      override fun execute(details: CompatibilityCheckDetails<Role>) = details.run {
+        if (consumerValue?.name == Role.LIB && producerValue?.name in COMPATIBLE_DEP_ROLES) {
+          compatible()
+        }
+      }
     }
   }
 
@@ -78,8 +105,46 @@ class ModuleRules {
       role(Role.LIB).let { lib ->
         // outgoing variants: this is a library project
         onEachConsumable(lib)
-        // resolvable dependencies: only resolve libraries, never apps
+        // resolvable dependencies: only resolve library-like things, never apps
         onEachResolvable(lib)
+      }
+
+      // libs can resolve libs or protos
+      setCompatibilityRules(LibRule::class.java)
+    }
+
+    /** Libs can resolve other libs and protos. */
+    abstract class LibRule : AttributeCompatibilityRule<Role> {
+
+      private companion object {
+        val COMPATIBLE_DEP_ROLES = listOf(Role.LIB, Role.PROTO)
+      }
+
+      override fun execute(details: CompatibilityCheckDetails<Role>) = details.run {
+        if (consumerValue?.name == Role.LIB && producerValue?.name in COMPATIBLE_DEP_ROLES) {
+          compatible()
+        }
+      }
+    }
+  }
+
+  /**
+   * Apply this plugin to proto projects:
+   *
+   * ```
+   * plugins {
+   *   id 'mutual.aid.rules.proto'
+   * }
+   * ```
+   */
+  class ProtoRulesPlugin : Plugin<Project> {
+
+    override fun apply(target: Project): Unit = target.run {
+      role(Role.PROTO).let { proto ->
+        // outgoing variants: this is a proto project
+        onEachConsumable(proto)
+        // resolvable dependencies: only resolve protos, nothing else
+        onEachResolvable(proto)
       }
     }
   }

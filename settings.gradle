@@ -15,3 +15,6 @@ include ':app'
 
 include ':feature-1'
 include ':feature-2'
+
+include ':protos:proto-1'
+include ':protos:proto-2'

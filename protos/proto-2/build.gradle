@@ -1,0 +1,11 @@
+plugins {
+  id 'org.jetbrains.kotlin.jvm' version '1.9.10'
+  id 'mutual.aid.configuration-roles'
+  id 'mutual.aid.rules.proto'
+}
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
+}

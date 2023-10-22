@@ -16,5 +16,9 @@ gradlePlugin {
       id = 'mutual.aid.rules.lib'
       implementationClass = 'mutual.aid.rules.ModuleRules$LibRulesPlugin'
     }
+    protoRules {
+      id = 'mutual.aid.rules.proto'
+      implementationClass = 'mutual.aid.rules.ModuleRules$ProtoRulesPlugin'
+    }
   }
 }
